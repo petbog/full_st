@@ -1,8 +1,9 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import { registerValidation } from './validations/auth.js'
+import { registerValidation, loginValidation, postCreateValidation } from './validationd.js'
 import checkAuth from './Utils/checkAuth.js';
 import { register, login, getMe } from "./controllers/UserController.js";
+import { create, getAll, getOnePost, removePost, update } from "./controllers/PostController.js";
 
 
 //подключение базы данных mongodb
@@ -21,11 +22,28 @@ app.use(express.json())
 //путь запроса
 
 //авторизация
-app.post('/login',login, login)
+app.post('/login', loginValidation, login)
+
 //post запрос регистрация
 app.post('/register', registerValidation, register);
+
 //инфо обо мне
 app.get('/auth/me', checkAuth, getMe)
+
+//создание поста
+app.post('/posts', checkAuth, postCreateValidation, create)
+
+//поиск всех постов
+app.get('/posts', getAll)
+
+//получение определенной статьи
+app.get('/posts/:id', getOnePost)
+
+//удаление поста
+app.delete('/post/:id',checkAuth, removePost)
+
+// обновление статьи
+app.patch('/posts/:id',checkAuth,update)
 
 //запуск сервера
 app.listen(4444, (err) => {

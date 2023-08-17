@@ -18,6 +18,7 @@ const PostSchema = new mongoose.Schema({
         default: 0
     },
     user: {
+        //связь между моделями для получения id,но надо ее еще подключить
         type: mongoose.Schema.Types.ObjectId,
         ref:'User',
         require:true,
@@ -28,4 +29,4 @@ const PostSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-export default mongoose.model('User', PostSchema)
+export default mongoose.model('Post', PostSchema)
