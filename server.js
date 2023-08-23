@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import { registerValidation, loginValidation, postCreateValidation } from './validationd.js'
 import checkAuth from './Utils/checkAuth.js';
 import { register, login, getMe } from "./controllers/UserController.js";
-import { create, getAll, getOnePost, removePost, update } from "./controllers/PostController.js";
+import { create, getAll, getOnePost, removePost, update ,getLastTags} from "./controllers/PostController.js";
 import multer from 'multer'
 import handleValidationErrors from './Utils/handleValidationErrors.js';
 import cors from 'cors'
@@ -70,6 +70,8 @@ app.delete('/post/:id', checkAuth, removePost)
 
 // обновление статьи
 app.patch('/posts/:id', checkAuth, postCreateValidation, handleValidationErrors, update)
+//получение тегов
+app.get('/tags',getLastTags)
 
 //загрузка картинки 
 app.post('/uploads', checkAuth, upload.single('image'), (req, res) => {

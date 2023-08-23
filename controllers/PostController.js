@@ -15,7 +15,21 @@ export const getAll = async (req, res) => {
         })
     }
 }
+//получение всех тегов
+export const getLastTags = async (req, res) => {
+    try {
+        const posts = await PostModel.find().limit(5).exec();
 
+        const tags = posts.map(obj => obj.tags).flat().slice(0, 5)
+
+        res.json(tags)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: 'Не удалось получить статьи'
+        })
+    }
+}
 //получение одной статьи
 //старый вариант
 // export const getOnePost = async (req, res) => {
@@ -154,7 +168,7 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const postId = req.params.id;
-       await PostModel.updateOne(
+        await PostModel.updateOne(
             {
                 _id: postId
             }, {
