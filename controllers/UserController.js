@@ -99,10 +99,6 @@ export const getMe = async (req, res) => {
         const { passworHash, ...userData } = user._doc
 
         res.json(userData)
-
-        res.json({
-            success: true
-        })
     } catch (error) {
         console.log(error)
         res.status(500).json({
