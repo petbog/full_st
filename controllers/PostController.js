@@ -73,23 +73,25 @@ export const getLastTags = async (req, res) => {
 //новый вариант
 export const getOnePost = async (req, res) => {
     try {
-        const postId = req.params.id;
-        const doc = await PostModel.findByIdAndUpdate(
-            postId,
-            { $inc: { viewsCount: 1 } },
-            { new: true }
-        ).exec();
-
-        if (!doc) {
-            return res.status(404).json({ message: "Статья не найдена" });
-        }
-
-        res.json(doc);
+      const postId = req.params.id;
+      const doc = await PostModel.findByIdAndUpdate(
+        postId,
+        { $inc: { viewsCount: 1 } },
+        { new: true }
+      )
+        .populate('user') // Перенесен сюда
+        .exec();
+  
+      if (!doc) {
+        return res.status(404).json({ message: "Статья не найдена" });
+      }
+  
+      res.json(doc);
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Не удалось получить статью" });
+      console.log(error);
+      res.status(500).json({ message: "Не удалось получить статью" });
     }
-};
+  };
 
 //удаление статьи
 //старый вариант
